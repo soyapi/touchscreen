@@ -253,12 +253,49 @@ function getFormElements(){
   var relevantFormElements = new Array();
 
   for(var i=0;i<formElements.length;i++){
-    if (formElements[i].getAttribute("type") != "hidden" && formElements[i].getAttribute("type") != "submit") {
-      relevantFormElements.push(formElements[i])
+    element = formElements[i];
+    if (element.getAttribute("type") != "hidden" && element.getAttribute("type") != "submit") {
+      if (element.id == "" ) {
+        //TODO: create method to text via helpText and label for
+        element.id = element.getAttribute('helpText').toLowerCase().replace(' ', '_');
+      }
+      relevantFormElements.push(element);
+      
+      var subElements = [];
+      if (element.getAttribute('forEach') == 'true') {
+        subElements = document.getElementsByClassName('foreach_'+element.id);
+
+        var forEachAnswers = element.options; //).split(tstMultipleSplitChar);
+        if (forEachAnswers) {
+          for (var j=0;j<forEachAnswers.length;j++) {
+            for (var k=0;k<subElements.length;k++) {
+              subElements[k].id = subElements[k].getAttribute('helpText').toLowerCase().replace(' ', '_');
+              var newElement = document.createElement('input');
+              setAttributes(newElement, subElements[k].attributes);
+              newElement.setAttribute('helpText', forEachAnswers[j].innerHTML + 
+                                      ': ' + subElements[k].getAttribute('helpText'));
+              newElement.setAttribute('id', forEachAnswers[j].innerHTML.toLowerCase() + 
+                                      '_' + newElement.getAttribute('id'));
+              relevantFormElements.push(newElement);
+              //document.forms[0].insertBefore(newElement,formElements[i+1]);
+              document.forms[0].appendChild(newElement);
+              console.log(new);
+            }
+          }
+        }
+      }
+
     }
+
   }
   
-  return relevantFormElements
+  return relevantFormElements;
+}
+
+function setAttributes(element, attributes) {
+  for (var i=0; i<attributes.length; i++) {
+    element.setAttribute(attributes[i].name, attributes[i].value);
+  }
 }
 
 function getCurrentFormElement(aPageNum) {
