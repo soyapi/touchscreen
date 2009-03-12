@@ -279,7 +279,6 @@ function getFormElements(){
               relevantFormElements.push(newElement);
               //document.forms[0].insertBefore(newElement,formElements[i+1]);
               document.forms[0].appendChild(newElement);
-              console.log(new);
             }
           }
         }

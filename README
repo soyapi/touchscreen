@@ -1,6 +1,7 @@
-touchscreen
+Touchscreen Toolkit v1.0a
 
-For Baobab's Touchscreen Toolkit, please refer to http://github/com/baobab/bart
+The toolkit tranforms a regular HTML form into a touch-friendly wizard interfacewhere each page focuses on one data element.
 
-This is just a test version
+
+This version is not stable!
 
